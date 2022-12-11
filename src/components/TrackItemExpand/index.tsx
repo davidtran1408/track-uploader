@@ -4,6 +4,7 @@ import { SelectOption } from "../../types";
 import NumberInput from "../NumberInput";
 import SelectItem from "../SelectItem";
 import RadioSelect from "../SelectRadio";
+import TextInput from "../TextInput";
 import UploadImageBox from "../UploadImageBox";
 import styles from "./index.module.css";
 
@@ -53,25 +54,20 @@ export default function TrackItemExpand() {
             <UploadImageBox />
 
             <SelectItem
+              name="genre"
               required
               label="Select genre"
               options={options}
               onChange={handleSelectChange}
             />
             <SelectItem
+              name="subGenre"
               required
-              label="Select genre"
+              label="Select sub genre"
               options={options}
               onChange={handleSelectChange}
               defaultValue={options[1]}
             />
-            <SelectItem
-              required
-              label="Select genre"
-              options={options}
-              onChange={handleSelectChange}
-            />
-
             <NumberInput
               name="tokenCost"
               required
@@ -82,26 +78,15 @@ export default function TrackItemExpand() {
 
           <Box width={{ base: "100%", sm: "50%" }}>
             <RadioSelect required label="Explicit" options={options} />
-            <SelectItem
+            <TextInput required name="trackTitle" label="Track title" />
+            <TextInput required name="trackArtist" label="Track artist" />
+            <NumberInput
+              name="year"
               required
-              label="Select genre"
-              options={options}
-              onChange={handleSelectChange}
+              min={1800}
+              max={3999}
+              label="Year"
             />
-            <SelectItem
-              required
-              label="Select genre"
-              options={options}
-              onChange={handleSelectChange}
-            />
-            <SelectItem
-              isMulti
-              required
-              label="Select genre"
-              options={options}
-              onChange={handleSelectChange}
-            />
-
             <NumberInput
               name="bpmStart"
               required
@@ -116,6 +101,15 @@ export default function TrackItemExpand() {
               max={220}
               label="BPM End (50-220)"
             />
+            <SelectItem
+              isMulti
+              required
+              name="tags"
+              placeholder="Select tag"
+              label="Select Tags (at least one)"
+              options={options}
+              onChange={handleSelectChange}
+            />
           </Box>
         </Box>
       </Box>
@@ -128,8 +122,10 @@ export default function TrackItemExpand() {
           Use the track editor to create a snippet file that highlights the part
           of your track you want to be played when people click "play". Snippets
           can be either 30, 60, 90 seconds, or a full-length lower quality
-          snippet will be used for "Entire Track"
+          snippet will be used for "Entire Track".
         </Text>
+        <RadioSelect options={options} />
+        <Text>Current track</Text>
       </Box>
 
       <Box mb={4}>

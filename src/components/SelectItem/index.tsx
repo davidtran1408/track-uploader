@@ -4,6 +4,7 @@ import { SelectOption } from "../../types";
 import styles from "./index.module.css";
 
 interface SelectItemProps {
+  name: string;
   isMulti?: boolean;
   isDisabled?: boolean;
   options: SelectOption[];
@@ -29,7 +30,7 @@ export default function SelectItem(props: SelectItemProps) {
   return (
     <Box className={styles.container}>
       <Text className={styles.label}>
-        {required && (
+        {required && !!label && (
           <Text as="span" className={styles.requiredMark}>
             *
           </Text>
