@@ -1,0 +1,8 @@
+.logo {
+  background: #5c94e8;
+}
+
+.title {
+  text-overflow: ellipsis;
+  font-size: 14px;
+}

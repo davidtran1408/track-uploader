@@ -1,0 +1,19 @@
+.container {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.label {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.label .requiredMark {
+  color: red;
+  margin-right: 3px;
+}
+
+.selectContainer span {
+  width: 0px;
+}
