@@ -9,3 +9,21 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
+
+/* wavesurfer.js */
+.wavesurfer-handle.wavesurfer-handle-start,
+.wavesurfer-handle.wavesurfer-handle-end {
+  background-color: #ffffff00 !important; /* invisible */
+  max-width: 8px !important;
+  min-width: 8px !important;
+  width: 3% !important;
+}
+
+.wavesurfer-region {
+  background-color: #21d4fd40;
+  background-image: linear-gradient(19deg, #21d4fd40 0%, #b721ff63 100%);
+}
+
+canvas {
+  z-index: unset !important;
+}

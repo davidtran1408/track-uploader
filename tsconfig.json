@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "noImplicitAny": false,
     "target": "es5",
     "lib": [
       "dom",
@@ -22,5 +23,14 @@
   },
   "include": [
     "src"
-  ]
+  ],
+  "ts-node": {
+    "compilerOptions": {
+      "esModuleInterop": true,
+      "module": "commonjs",
+      "moduleResolution": "node",
+      "noEmit": true,
+      "allowSyntheticDefaultImports": true
+    }
+  }
 }

@@ -5,6 +5,7 @@ import NumberInput from "../NumberInput";
 import SelectItem from "../SelectItem";
 import RadioSelect from "../SelectRadio";
 import TextInput from "../TextInput";
+import TrackSnippet from "../TrackSnippet";
 import UploadImageBox from "../UploadImageBox";
 import styles from "./index.module.css";
 
@@ -124,8 +125,7 @@ export default function TrackItemExpand() {
           can be either 30, 60, 90 seconds, or a full-length lower quality
           snippet will be used for "Entire Track".
         </Text>
-        <RadioSelect options={options} />
-        <Text>Current track</Text>
+        <TrackSnippet />
       </Box>
 
       <Box mb={4}>

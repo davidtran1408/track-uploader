@@ -6,11 +6,18 @@ interface RadioSelectProps {
   options: SelectOption[];
   required?: boolean;
   label?: string;
+  defaultValue?: string;
   onChange?: (value: any) => void;
 }
 
 export default function RadioSelect(props: RadioSelectProps) {
-  const { options = [], label, required = false } = props;
+  const {
+    options = [],
+    label,
+    required = false,
+    defaultValue,
+    onChange,
+  } = props;
 
   return (
     <Box className={styles.container}>
@@ -23,10 +30,10 @@ export default function RadioSelect(props: RadioSelectProps) {
         {label}
       </Text>
 
-      <RadioGroup defaultValue="1">
+      <RadioGroup defaultValue={defaultValue} onChange={onChange}>
         <Stack spacing={4} direction="row">
           {options.map((op) => (
-            <Radio key={op.value} value={op.value}>
+            <Radio key={op.value} value={op.value.toString()}>
               {op.label}
             </Radio>
           ))}
