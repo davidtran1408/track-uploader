@@ -18,3 +18,8 @@ export interface SelectOption {
   value: string|number;
   label: string;
 }
+
+export interface TrackItemUpload {
+  uuid: string;
+  file: File;
+}

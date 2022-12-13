@@ -1,39 +1,22 @@
 import {
   Box,
-  InputGroup,
-  Text,
-  InputLeftElement,
   Input,
+  InputGroup,
+  InputLeftElement,
+  Text,
 } from "@chakra-ui/react";
-import UploadBox from "../components/UploadBox";
-import { UploaderInputProps } from "../types";
 import { BiSearch } from "react-icons/bi";
-import { useCallback, useState } from "react";
 import TrackItem from "../components/TrackItem";
+import UploadBox from "../components/UploadBox";
+import { useUploader } from "../hooks/useUploader";
+import { UploaderInputProps } from "../types";
 
 export default function Uploader(props: UploaderInputProps) {
-  console.log("props", props);
-  // TODO: create hooks to store current files and handle logic there
-  const [trackFiles, setTrackFile] = useState<File[]>([]);
-
-  const handleSearchTrack = useCallback(
-    (e: any) => {
-      const title = e.target.value;
-      console.log("title", title);
-
-      if (!title) {
-        setTrackFile(trackFiles);
-      } else {
-        const result = trackFiles.filter((it) => it.name === title);
-        setTrackFile(result);
-      }
-    },
-    [trackFiles]
-  );
+  const { tracks = [], onGetTracks, onRemove } = useUploader();
 
   return (
     <Box p={10}>
-      <UploadBox />
+      <UploadBox onChange={onGetTracks} />
       <Text pt={5}>
         Now click on the files that say "Needs Prep" and fill in the information
         required for each to be published. Media files will not go into our
@@ -48,12 +31,13 @@ export default function Uploader(props: UploaderInputProps) {
         <Input
           type="text"
           placeholder="Search..."
-          onChange={handleSearchTrack}
+          // onChange={handleSearchTrack}
         />
       </InputGroup>
 
-      <TrackItem />
-      <TrackItem />
+      {tracks.map((it) => {
+        return <TrackItem key={it.uuid} track={it} onRemove={onRemove} />;
+      })}
     </Box>
   );
 }

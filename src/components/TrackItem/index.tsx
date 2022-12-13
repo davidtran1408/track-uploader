@@ -1,15 +1,27 @@
 import { Box, Button, ButtonGroup, Image, Text } from "@chakra-ui/react";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import Logo from "../../assets/images/logo.png";
+import useVisible from "../../hooks/useVisible";
+import { TrackItemUpload } from "../../types";
 import TrackItemExpand from "../TrackItemExpand";
 import styles from "./index.module.css";
 
-export default function TrackItem() {
-  const [isExpand, setExpand] = useState(false);
+interface TrackItemProps {
+  track: TrackItemUpload;
+  onRemove?: (uuid: string) => void;
+}
 
-  const handleExpand = useCallback(() => {
-    setExpand((pre) => !pre);
-  }, []);
+export default function TrackItem(props: TrackItemProps) {
+  const { track, onRemove } = props;
+  const expandTrack = useVisible(false);
+
+  const handleRemove = useCallback(() => {
+    if (track && onRemove) {
+      onRemove(track.uuid);
+    }
+  }, [onRemove, track]);
+
+  console.log("track", track);
 
   return (
     <Box>
@@ -36,7 +48,7 @@ export default function TrackItem() {
             className={styles.logo}
           />
           <Text className={styles.title} ml={5}>
-            Sizzahandz-Coochie Lips Vs. House Of Los Chicanos (DJ Tool).mp3
+            {track?.file.name}
           </Text>
         </Box>
 
@@ -45,16 +57,21 @@ export default function TrackItem() {
           display={{ sm: "flex" }}
           justifyContent={{ sm: "end" }}
         >
-          <Button size="sm" colorScheme="linkedin" onClick={handleExpand}>
+          <Button size="sm" colorScheme="linkedin" onClick={expandTrack.toggle}>
             Need Prep
           </Button>
-          <Button size="sm" colorScheme="red" variant="ghost">
+          <Button
+            size="sm"
+            colorScheme="red"
+            variant="ghost"
+            onClick={handleRemove}
+          >
             Delete
           </Button>
         </ButtonGroup>
       </Box>
 
-      {isExpand && <TrackItemExpand />}
+      {expandTrack.visible && <TrackItemExpand />}
     </Box>
   );
 }
