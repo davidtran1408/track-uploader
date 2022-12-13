@@ -1,6 +1,10 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { useCallback } from "react";
-import { SelectOption } from "../../types";
+import { EXPLICIT_TRACK } from "../../constants";
+import { formatTime } from "../../helpers";
+import { getFileTypeCategoryName } from "../../helpers/files";
+import useSong from "../../hooks/useSong";
+import { SelectOption, TrackItemUpload } from "../../types";
 import NumberInput from "../NumberInput";
 import SelectItem from "../SelectItem";
 import RadioSelect from "../SelectRadio";
@@ -9,11 +13,19 @@ import TrackSnippet from "../TrackSnippet";
 import UploadImageBox from "../UploadImageBox";
 import styles from "./index.module.css";
 
-export default function TrackItemExpand() {
+interface TrackItemExpandProps {
+  track: TrackItemUpload;
+}
+
+export default function TrackItemExpand(props: TrackItemExpandProps) {
+  const { track } = props;
+  console.log("track", track);
+  const { trackAvatar, trackSong, trackFile, trackDuration, trackSize } =
+    useSong(track);
+
   const options = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" },
+    { value: EXPLICIT_TRACK.CLEAN, label: "Clean" },
+    { value: EXPLICIT_TRACK.DIRTY, label: "Dirty" },
   ];
 
   const handleSelectChange = useCallback((item: SelectOption) => {
@@ -29,14 +41,17 @@ export default function TrackItemExpand() {
         <Text>Automatically written by our system:</Text>
         <Flex justifyContent="space-between">
           <Text>
-            <b>Key: </b>Em
+            <b>Key: </b>
+            {trackSong?.key || "None"}
           </Text>
-          <Text>MP3 320KBPS</Text>
+          <Text>{getFileTypeCategoryName(trackFile?.type)}</Text>
           <Text>
-            <b>Length: </b>02:48
+            <b>Length: </b>
+            {formatTime(trackDuration)}
           </Text>
           <Text>
-            <b>Size: </b>6.79MB
+            <b>Size: </b>
+            {trackSize}MB
           </Text>
         </Flex>
       </Box>
@@ -52,22 +67,21 @@ export default function TrackItemExpand() {
               Track Artwork: (If blank, by default your square logo of this
               label will be used)
             </Text>
-            <UploadImageBox />
+            <UploadImageBox trackAvatar={trackAvatar} />
 
             <SelectItem
               name="genre"
               required
               label="Select genre"
-              options={options}
+              options={[]}
               onChange={handleSelectChange}
             />
             <SelectItem
               name="subGenre"
               required
               label="Select sub genre"
-              options={options}
+              options={[]}
               onChange={handleSelectChange}
-              defaultValue={options[1]}
             />
             <NumberInput
               name="tokenCost"
@@ -78,15 +92,33 @@ export default function TrackItemExpand() {
           </Box>
 
           <Box width={{ base: "100%", sm: "50%" }}>
-            <RadioSelect required label="Explicit" options={options} />
-            <TextInput required name="trackTitle" label="Track title" />
-            <TextInput required name="trackArtist" label="Track artist" />
+            <RadioSelect
+              required
+              label="Explicit"
+              options={options}
+              defaultValue={
+                trackSong?.isClean ? EXPLICIT_TRACK.CLEAN : EXPLICIT_TRACK.DIRTY
+              }
+            />
+            <TextInput
+              required
+              name="trackTitle"
+              label="Track title"
+              defaultValue={trackFile?.name}
+            />
+            <TextInput
+              required
+              name="trackArtist"
+              label="Track artist"
+              defaultValue={trackSong?.artist}
+            />
             <NumberInput
               name="year"
               required
               min={1800}
               max={3999}
               label="Year"
+              defaultValue={+trackSong?.year}
             />
             <NumberInput
               name="bpmStart"
@@ -94,6 +126,7 @@ export default function TrackItemExpand() {
               min={50}
               max={220}
               label="BPM Start (50-220)"
+              defaultValue={+trackSong.beatsPerMinute}
             />
             <NumberInput
               name="bpmEnd"
@@ -101,6 +134,7 @@ export default function TrackItemExpand() {
               min={50}
               max={220}
               label="BPM End (50-220)"
+              defaultValue={+trackSong.beatsPerMinuteEnd}
             />
             <SelectItem
               isMulti

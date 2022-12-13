@@ -1,4 +1,5 @@
 import TagReader from 'jsmediatags';
+import { FILE_TYPES, UNKNOWN } from '../constants';
 import { AlbumCover, FileSelection, Song } from '../models';
 
 export const convertFilesToSongs = (files: File[]) => {
@@ -69,4 +70,9 @@ export const convertFilesToSongs = (files: File[]) => {
   });
 
   return promises;
+};
+
+
+export const getFileTypeCategoryName = (type: string) => {
+  return FILE_TYPES[type] || UNKNOWN
 };

@@ -1,12 +1,17 @@
 import { Box, Image, Text } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
+import { IoIosCloseCircle } from "react-icons/io";
 import { FILE_TYPE } from "../../constants";
 import styles from "./index.module.css";
-import { IoIosCloseCircle } from "react-icons/io";
 
-export default function UploadImageBox() {
-  const [selectedFile, setSelectedFile] = useState<any>(null);
+interface UploadImageBoxProps {
+  trackAvatar?: string;
+}
+
+export default function UploadImageBox(props: UploadImageBoxProps) {
+  const { trackAvatar } = props;
+  const [selectedFile, setSelectedFile] = useState<any>(trackAvatar || null);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const fileObj = URL.createObjectURL(acceptedFiles[0]);

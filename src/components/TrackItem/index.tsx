@@ -1,6 +1,6 @@
 import { Box, Button, ButtonGroup, Image, Text } from "@chakra-ui/react";
-import { useCallback, useMemo } from "react";
-import DefaultTrackAvatar from "../../assets/images/logo.png";
+import { useCallback } from "react";
+import useSong from "../../hooks/useSong";
 import useVisible from "../../hooks/useVisible";
 import { TrackItemUpload } from "../../types";
 import TrackItemExpand from "../TrackItemExpand";
@@ -14,23 +14,13 @@ interface TrackItemProps {
 export default function TrackItem(props: TrackItemProps) {
   const { track, onRemove } = props;
   const expandTrack = useVisible(false);
+  const { trackAvatar } = useSong(track);
 
   const handleRemove = useCallback(() => {
     if (track && onRemove) {
       onRemove(track.uuid);
     }
   }, [onRemove, track]);
-
-  console.log("track", track);
-
-  const trackAvatar = useMemo(() => {
-    const song = track?.media.song;
-    if (!song.albumCover) {
-      return DefaultTrackAvatar;
-    }
-
-    return song.albumCover.dataAsTagSrc || URL.createObjectURL(song.albumCover);
-  }, [track]);
 
   return (
     <Box>
@@ -80,7 +70,7 @@ export default function TrackItem(props: TrackItemProps) {
         </ButtonGroup>
       </Box>
 
-      {expandTrack.visible && <TrackItemExpand />}
+      {expandTrack.visible && <TrackItemExpand track={track} />}
     </Box>
   );
 }
