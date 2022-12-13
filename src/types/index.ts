@@ -1,3 +1,5 @@
+import { FileSelection } from "../models";
+
 export interface UploaderInputProps {
   jwt: string;
   genres: GenreOrTag[];
@@ -21,5 +23,5 @@ export interface SelectOption {
 
 export interface TrackItemUpload {
   uuid: string;
-  file: File;
+  media: FileSelection;
 }

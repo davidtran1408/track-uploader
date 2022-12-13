@@ -1,6 +1,6 @@
 import { Box, Button, ButtonGroup, Image, Text } from "@chakra-ui/react";
-import { useCallback } from "react";
-import Logo from "../../assets/images/logo.png";
+import { useCallback, useMemo } from "react";
+import DefaultTrackAvatar from "../../assets/images/logo.png";
 import useVisible from "../../hooks/useVisible";
 import { TrackItemUpload } from "../../types";
 import TrackItemExpand from "../TrackItemExpand";
@@ -23,6 +23,15 @@ export default function TrackItem(props: TrackItemProps) {
 
   console.log("track", track);
 
+  const trackAvatar = useMemo(() => {
+    const song = track?.media.song;
+    if (!song.albumCover) {
+      return DefaultTrackAvatar;
+    }
+
+    return song.albumCover.dataAsTagSrc || URL.createObjectURL(song.albumCover);
+  }, [track]);
+
   return (
     <Box>
       <Box
@@ -43,12 +52,12 @@ export default function TrackItem(props: TrackItemProps) {
             objectFit="cover"
             h="60px"
             w="60px"
-            src={Logo}
+            src={trackAvatar}
             alt="Track logo"
             className={styles.logo}
           />
           <Text className={styles.title} ml={5}>
-            {track?.file.name}
+            {track?.media?.file.name}
           </Text>
         </Box>
 

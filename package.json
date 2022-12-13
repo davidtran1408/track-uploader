@@ -15,7 +15,8 @@
     "@types/react-dom": "^18.0.9",
     "classnames": "^2.3.2",
     "framer-motion": "^7.6.19",
-    "jsmediatags": "^3.9.7",
+    "get-blob-duration": "^1.2.0",
+    "jsmediatags": "3.9.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
@@ -53,7 +54,6 @@
     ]
   },
   "devDependencies": {
-    "@types/jsmediatags": "^3.9.3",
     "@types/react-loading-overlay": "^1.0.1",
     "@types/uuid": "^9.0.0",
     "@types/wavesurfer.js": "^6.0.3"
